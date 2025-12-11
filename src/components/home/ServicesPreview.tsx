@@ -7,7 +7,7 @@ const services = [
     icon: Gem,
     title: "Maggam Work",
     description: "Exquisite hand embroidery featuring intricate gold and silver thread work, beadwork, and stone embellishments that transform fabric into wearable art.",
-    image: "https://images.unsplash.com/photo-1558171813-4c088753af8f?q=80&w=800&auto=format&fit=crop",
+    image: "/maggam-work.png",
     link: "/services#maggam",
   },
   {
