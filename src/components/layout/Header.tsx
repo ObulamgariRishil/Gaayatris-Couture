@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabaseClient";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,22 @@ const navLinks = [
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    // Check initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAdmin(!!session);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAdmin(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
@@ -46,6 +62,19 @@ const Header = () => {
                 )}
               </Link>
             ))}
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className={cn(
+                  "font-body text-sm font-medium tracking-wide transition-colors duration-300 hover:text-secondary relative text-primary",
+                  location.pathname === "/admin"
+                    ? "text-secondary"
+                    : "text-primary font-bold"
+                )}
+              >
+                Admin Dashboard
+              </Link>
+            )}
           </nav>
 
           {/* CTA Button (Desktop) */}
@@ -93,6 +122,15 @@ const Header = () => {
                 {link.name}
               </Link>
             ))}
+            {isAdmin && (
+              <Link
+                to="/admin"
+                onClick={() => setIsMenuOpen(false)}
+                className="font-body text-lg font-medium py-2 border-b border-border/50 transition-colors duration-300 animate-fade-up text-primary"
+              >
+                Admin Dashboard
+              </Link>
+            )}
             <Button variant="hero" className="mt-4 w-full" asChild>
               <Link to="/contact" onClick={() => setIsMenuOpen(false)}>
                 Get in Touch

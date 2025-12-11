@@ -1,74 +1,58 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { X, ZoomIn, ArrowRight } from "lucide-react";
+import { X, ZoomIn, ArrowRight, Pencil, Trash } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
+import { supabase } from "@/lib/supabaseClient";
+import EditProductModal from "@/components/admin/EditProductModal";
+import { useToast } from "@/hooks/use-toast";
 
 const categories = ["All", "Bridal", "Festive", "Casual", "Custom"];
 
-const designs = [
-  {
-    id: 1,
-    title: "Royal Kanjivaram Silk",
-    category: "Bridal",
-    description: "Traditional temple border with intricate gold zari work",
-    image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: 2,
-    title: "Pastel Organza",
-    category: "Festive",
-    description: "Lightweight organza with delicate pearl embroidery",
-    image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: 3,
-    title: "Designer Blouse",
-    category: "Custom",
-    description: "Contemporary cut with traditional Maggam work",
-    image: "https://images.unsplash.com/photo-1594463750939-ebb28c3f7f75?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: 4,
-    title: "Banarasi Heritage",
-    category: "Bridal",
-    description: "Pure silk with timeless brocade patterns",
-    image: "https://images.unsplash.com/photo-1609357871098-53e798714d3c?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: 5,
-    title: "Cotton Comfort",
-    category: "Casual",
-    description: "Handwoven cotton with subtle block prints",
-    image: "https://images.unsplash.com/photo-1558171813-4c088753af8f?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: 6,
-    title: "Silk Ensemble",
-    category: "Festive",
-    description: "Rich silk blend with modern geometric patterns",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: 7,
-    title: "Bridal Lehenga",
-    category: "Bridal",
-    description: "Heavy embroidered lehenga with matching dupatta",
-    image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: 8,
-    title: "Printed Georgette",
-    category: "Casual",
-    description: "Flowy georgette with floral digital prints",
-    image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?q=80&w=800&auto=format&fit=crop",
-  },
-];
-
 const Catalog = () => {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [selectedDesign, setSelectedDesign] = useState<typeof designs[0] | null>(null);
+  const [selectedDesign, setSelectedDesign] = useState<any | null>(null);
+  const [designs, setDesigns] = useState<any[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<any | null>(null); // For modal
+  const { toast } = useToast();
+
+  useEffect(() => {
+    fetchDesigns();
+    checkAuth();
+  }, []);
+
+  const checkAuth = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    setIsAdmin(!!session);
+  };
+
+  const fetchDesigns = async () => {
+    const { data } = await supabase
+      .from('products')
+      .select('*')
+      .eq('section', 'Catalog')
+      .order('created_at', { ascending: false });
+
+    if (data) setDesigns(data);
+  };
+
+  const handleDelete = async (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    if (!confirm("Delete this design?")) return;
+
+    const { error } = await supabase.from('products').delete().eq('id', id);
+    if (!error) {
+      toast({ title: "Deleted", description: "Design removed." });
+      fetchDesigns();
+    }
+  };
+
+  const handleEditClick = (e: React.MouseEvent, design: any) => {
+    e.stopPropagation();
+    setEditingProduct(design);
+  };
 
   const filteredDesigns = activeCategory === "All"
     ? designs
@@ -123,19 +107,37 @@ const Catalog = () => {
                 style={{ animationDelay: `${index * 50}ms` }}
                 onClick={() => setSelectedDesign(design)}
               >
-                <div className="aspect-[3/4] overflow-hidden">
+                <div className="aspect-[3/4] overflow-hidden relative">
                   <img
-                    src={design.image}
+                    src={design.image_url}
                     alt={design.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  
+
                   {/* Zoom Icon */}
-                  <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-background/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-background/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                     <ZoomIn size={18} className="text-foreground" />
                   </div>
+
+                  {/* Admin Controls */}
+                  {isAdmin && (
+                    <div className="absolute top-4 right-4 flex gap-2 opacity-100 z-20">
+                      <button
+                        onClick={(e) => handleEditClick(e, design)}
+                        className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-200"
+                      >
+                        <Pencil size={14} />
+                      </button>
+                      <button
+                        onClick={(e) => handleDelete(e, design.id)}
+                        className="w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
+                      >
+                        <Trash size={14} />
+                      </button>
+                    </div>
+                  )}
 
                   {/* Category Badge */}
                   <div className="absolute top-4 left-4">
@@ -149,7 +151,7 @@ const Catalog = () => {
                     <h3 className="font-heading text-lg font-semibold text-background mb-1">
                       {design.title}
                     </h3>
-                    <p className="font-body text-sm text-background/80">
+                    <p className="font-body text-sm text-background/80 line-clamp-2">
                       {design.description}
                     </p>
                   </div>
@@ -187,11 +189,11 @@ const Catalog = () => {
             >
               <X size={20} />
             </button>
-            
+
             <div className="grid md:grid-cols-2">
               <div className="aspect-square md:aspect-auto">
                 <img
-                  src={selectedDesign.image}
+                  src={selectedDesign.image_url}
                   alt={selectedDesign.title}
                   className="w-full h-full object-cover"
                 />
@@ -206,6 +208,11 @@ const Catalog = () => {
                 <p className="font-body text-foreground/70 leading-relaxed mb-6">
                   {selectedDesign.description}
                 </p>
+                {selectedDesign.price && selectedDesign.price !== "On Request" && (
+                  <p className="font-heading text-xl text-primary font-semibold mb-6">
+                    {selectedDesign.price}
+                  </p>
+                )}
                 <Button variant="hero" size="lg" asChild>
                   <Link to="/contact">Inquire About This Design</Link>
                 </Button>
@@ -214,6 +221,14 @@ const Catalog = () => {
           </div>
         </div>
       )}
+
+      {/* Edit Modal (Admin Only) */}
+      <EditProductModal
+        product={editingProduct}
+        isOpen={!!editingProduct}
+        onClose={() => setEditingProduct(null)}
+        onUpdate={fetchDesigns}
+      />
     </Layout>
   );
 };
