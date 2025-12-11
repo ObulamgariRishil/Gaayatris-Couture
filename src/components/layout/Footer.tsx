@@ -34,7 +34,7 @@ const Footer = () => {
                 <Facebook size={18} />
               </a>
               <a
-                href="mailto:info@gaayatricouture.com"
+                href="mailto:satishobulamgari@gmail.com"
                 className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary hover:text-foreground transition-all duration-300"
                 aria-label="Email"
               >
@@ -94,19 +94,19 @@ const Footer = () => {
               <li className="flex items-start gap-3">
                 <Phone size={16} className="text-primary mt-1 flex-shrink-0" />
                 <span className="font-body text-sm text-background/70">
-                  +91 98765 43210
+                  +91 8247859197
                 </span>
               </li>
               <li className="flex items-start gap-3">
                 <Mail size={16} className="text-primary mt-1 flex-shrink-0" />
                 <span className="font-body text-sm text-background/70">
-                  info@gaayatricouture.com
+                  satishobulamgari@gmail.com
                 </span>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin size={16} className="text-primary mt-1 flex-shrink-0" />
                 <span className="font-body text-sm text-background/70">
-                  Hyderabad, Telangana, India
+                  Neredmet X Roads, Secunderabad, Telangana
                 </span>
               </li>
             </ul>

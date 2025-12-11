@@ -213,8 +213,8 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-heading text-lg font-semibold text-foreground mb-1">Phone</h3>
-                    <p className="font-body text-foreground/70">+91 98765 43210</p>
-                    <p className="font-body text-foreground/70">+91 98765 43211</p>
+                    <p className="font-body text-foreground/70">+91 8247859197</p>
+                    <p className="font-body text-foreground/70">+91 9030002593</p>
                   </div>
                 </div>
 
@@ -224,8 +224,8 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-heading text-lg font-semibold text-foreground mb-1">Email</h3>
-                    <p className="font-body text-foreground/70">info@gaayatricouture.com</p>
-                    <p className="font-body text-foreground/70">orders@gaayatricouture.com</p>
+                    <p className="font-body text-foreground/70">satishobulamgari@gmail.com</p>
+                    <p className="font-body text-foreground/70">gayatriobulamgari@gmail.com</p>
                   </div>
                 </div>
 
@@ -236,8 +236,8 @@ const Contact = () => {
                   <div>
                     <h3 className="font-heading text-lg font-semibold text-foreground mb-1">Address</h3>
                     <p className="font-body text-foreground/70">
-                      123, Jubilee Hills<br />
-                      Hyderabad, Telangana 500033<br />
+                      Neredmet X Roads, Secunderabad<br />
+                      Telangana 500094<br />
                       India
                     </p>
                   </div>
