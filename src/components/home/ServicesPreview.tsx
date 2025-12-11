@@ -14,7 +14,7 @@ const services = [
     icon: Ruler,
     title: "Custom Tailoring",
     description: "Precision-fitted garments crafted to your exact measurements, ensuring a perfect silhouette for blouses, lehengas, and traditional wear.",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=800&auto=format&fit=crop",
+    image: "/custom-tailoring.png",
     link: "/services#tailoring",
   },
 ];
