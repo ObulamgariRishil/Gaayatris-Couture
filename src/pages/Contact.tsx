@@ -213,8 +213,8 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-heading text-lg font-semibold text-foreground mb-1">Phone</h3>
-                    <p className="font-body text-foreground/70">+91 8247859197</p>
                     <p className="font-body text-foreground/70">+91 9030002593</p>
+                    <p className="font-body text-foreground/70">+91 7688802999</p>
                   </div>
                 </div>
 
@@ -224,8 +224,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-heading text-lg font-semibold text-foreground mb-1">Email</h3>
-                    <p className="font-body text-foreground/70">satishobulamgari@gmail.com</p>
-                    <p className="font-body text-foreground/70">gayatriobulamgari@gmail.com</p>
+                    <p className="font-body text-foreground/70">gaayatriobulamgari@gmail.com</p>
                   </div>
                 </div>
 

@@ -34,7 +34,7 @@ const Footer = () => {
                 <Facebook size={18} />
               </a>
               <a
-                href="mailto:satishobulamgari@gmail.com"
+                href="mailto:gaayatriobulamgari@gmail.com"
                 className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary hover:text-foreground transition-all duration-300"
                 aria-label="Email"
               >
@@ -93,14 +93,19 @@ const Footer = () => {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <Phone size={16} className="text-primary mt-1 flex-shrink-0" />
-                <span className="font-body text-sm text-background/70">
-                  +91 8247859197
-                </span>
+                <div className="flex flex-col">
+                  <span className="font-body text-sm text-background/70">
+                    +91 9030002593
+                  </span>
+                  <span className="font-body text-sm text-background/70">
+                    +91 7688802999
+                  </span>
+                </div>
               </li>
               <li className="flex items-start gap-3">
                 <Mail size={16} className="text-primary mt-1 flex-shrink-0" />
                 <span className="font-body text-sm text-background/70">
-                  satishobulamgari@gmail.com
+                  gaayatriobulamgari@gmail.com
                 </span>
               </li>
               <li className="flex items-start gap-3">

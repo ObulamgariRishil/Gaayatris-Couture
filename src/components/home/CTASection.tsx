@@ -16,7 +16,7 @@ const CTASection = () => {
             <span className="text-gradient italic">Dream Outfit?</span>
           </h2>
           <p className="font-body text-lg md:text-xl text-foreground/70 leading-relaxed mb-10 max-w-2xl mx-auto">
-            Whether you're looking for a bridal masterpiece, festive attire, or everyday elegance, 
+            Whether you're looking for a bridal masterpiece, festive attire, or everyday elegance,
             we're here to bring your vision to life.
           </p>
 
@@ -28,7 +28,7 @@ const CTASection = () => {
               </Link>
             </Button>
             <Button variant="elegant" size="xl" asChild>
-              <a href="tel:+919876543210" className="group">
+              <a href="tel:+919030002593" className="group">
                 <Phone size={18} className="mr-2" />
                 Call Us Now
               </a>
